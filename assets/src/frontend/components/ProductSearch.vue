@@ -256,15 +256,26 @@ export default {
             if ( this.searchInput ) {
                 if ( this.mode == 'product' ) {
                     var search = this.searchInput.toLowerCase();
+                    var generalSettings = this.settings.wepos_general,
+                        field = generalSettings.barcode_scanner_field == 'custom' ? 'barcode' : generalSettings.barcode_scanner_field;
                     this.searchableProduct = this.products.filter( (product) => {
                         if ( product.id.toString().indexOf( this.searchInput ) > -1 ) {
                             return true;
                         } else if ( product.name.toString().toLowerCase().indexOf( search ) > -1 ) {
-                            return true
+                            return true;
                         } else if ( product.sku.indexOf( this.searchInput ) > -1 ) {
-                            return true
+                            return true;
                         } else if ( product.categories.map(p => p.name.toString().toLowerCase()).join(' ').toString().indexOf( search ) > -1 ) {
-                            return true
+                            return true;
+                        } else if ( typeof product.variations !== 'undefined' && product.variations.some((p) => {
+                            console.log(p[field]);
+                            if ( p[field].toString() == this.searchInput ) {
+                                console.info(p);
+                                return true;
+                            }
+                            return false;
+                        })) {
+                            return true;
                         }
                         return false;
                     } );
