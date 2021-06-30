@@ -78,9 +78,9 @@ export default {
             this.displayValue='';
         },
         change(value){
-            if ( !isNaN(value) ) {
+            if ( !isNaN(this.unFormat(value)) ) {
                 this.displayValue = value;
-                this.input = this.displayValue;
+                this.input = this.unFormat(this.displayValue).toString();
             } else {
                 this.input = this.displayValue;
                 if ( this.displayValue == '' ) {
@@ -95,8 +95,8 @@ export default {
             }
         },
         inputChange() {
-            if ( !isNaN( this.displayValue ) ) {
-                this.input = this.displayValue;
+            if ( !isNaN( this.unFormat(this.displayValue) ) ) {
+                this.input = this.unFormat(this.displayValue).toString();
             } else {
                 this.displayValue = this.input;
             }
